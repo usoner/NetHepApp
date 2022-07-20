@@ -1,0 +1,470 @@
+Index: src/view/content/widgets/advance-table/DashboardTop.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/view/content/widgets/advance-table/DashboardTop.vue	(date 1598866240793)
++++ src/view/content/widgets/advance-table/DashboardTop.vue	(date 1598866240793)
+@@ -0,0 +1,211 @@
++<template>
++  <div>
++    <div class="row">
++      <div class="col-xxl-12">
++        <div class="card">
++          <div class="card-body row">
++            <div class="widget col-xl-4">
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Hesaba Giriş Hareketleri</h3>
++                  <span class="widget__desc"
++                    >Gelen Havale, EFT ve Kasa İşlemleri</span
++                  >
++                </div>
++                <span class="widget__number text-info">{{
++                  accountInCount
++                }}</span>
++              </div>
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Hesaptan Çıkış Hareketleri</h3>
++                  <span class="widget__desc"
++                    >Giden EFT, Havale ve Kasa İşlemleri</span
++                  >
++                </div>
++                <span class="widget__number text-danger">{{
++                  accountOutCount
++                }}</span>
++              </div>
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Toplam İşlem Sayısı</h3>
++                  <span class="widget__desc">Tüm hareket sayısı</span>
++                </div>
++                <span class="widget__number text-success">{{
++                  accountInCount + accountOutCount
++                }}</span>
++              </div>
++            </div>
++            <div class="widget col-xl-4">
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Giriş Toplamı</h3>
++                  <span class="widget__desc">Hesaba toplam giriş tutarı</span>
++                </div>
++                <span class="widget__number text-success">
++                  {{ accountInAmountSum | formatPrice }}
++                </span>
++              </div>
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Çıkış Toplamı</h3>
++                  <span class="widget__desc">Hesaptan toplam çıkış tutarı</span>
++                </div>
++                <span class="widget__number text-info">
++                  {{ accountOutAmountSum | formatPrice }}
++                </span>
++              </div>
++              <div class="widget__item">
++                <div class="widget__info">
++                  <h3 class="widget__title">Dönem Bakiyesi</h3>
++                  <span class="widget__desc">Şu anki hesap bakiyesi</span>
++                </div>
++                <span class="widget__number text-warning">
++                  {{ accountTotalAmountSum | formatPrice }}
++                </span>
++              </div>
++            </div>
++            <div class="widget col-xl-4">
++              <div class="widget__item row">
++                <div class="widget__info col-md-7">
++                  <h3 class="widget__title">
++                    Devir Bakiye
++                  </h3>
++                  <span class="widget__desc">
++                    Önceki günden gelen devir bakiyesi
++                  </span>
++                </div>
++                <span class="widget__number text-success col-md-5">
++                  {{ sumTransferAmount | formatPrice }}
++                </span>
++              </div>
++              <div class="widget__item row">
++                <div class="widget__info col-md-7">
++                  <h3 class="widget__title">Bakiye</h3>
++                  <span class="widget__desc">
++                    Devir bakiye ve raporlanan işlemlerle birlikte son bakiye
++                  </span>
++                </div>
++                <span class="widget__number text-primary col-md-5">
++                  {{ sumAmount | formatPrice }}
++                </span>
++              </div>
++            </div>
++          </div>
++        </div>
++      </div>
++    </div>
++  </div>
++</template>
++
++<script>
++export default {
++  name: "DashboardTop",
++  props: {
++    counter: Number,
++    accountInCount: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    accountOutCount: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    accountInAmountSum: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    accountOutAmountSum: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    accountTotalAmountSum: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    sumAmount: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    },
++    sumTransferAmount: {
++      type: [Number],
++      required: true,
++      default: function() {
++        return 0;
++      }
++    }
++  }
++};
++</script>
++
++<style scoped>
++.card-body {
++  padding: 1.25rem !important;
++}
++
++.widget {
++  padding: 15px;
++  border-right: 1px solid #f3f3f3;
++}
++
++.widget:last-child {
++  border-right: 0;
++}
++
++.widget .widget__item {
++  padding: 1.1rem 0;
++  display: -webkit-box;
++  display: -ms-flexbox;
++  display: flex;
++  -webkit-box-pack: justify;
++  -ms-flex-pack: justify;
++  justify-content: space-between;
++  -webkit-box-align: center;
++  -ms-flex-align: center;
++  align-items: center;
++  border-bottom: 0.07rem dashed #ebedf2;
++}
++.widget .widget__item:last-child {
++  padding-bottom: 0;
++}
++.widget .widget__item:first-child {
++  padding-top: 0;
++}
++.widget .widget__item .widget__info .widget__title {
++  font-size: 1rem;
++  font-weight: 500;
++  color: #595d6e;
++}
++.widget .widget__item .widget__info .widget__desc {
++  font-size: 1rem;
++  font-weight: normal;
++  color: #74788d;
++}
++.widget .widget__item .widget__number {
++  font-size: 1.1rem;
++  font-weight: 600;
++  color: #74788d;
++}
++.widget .widget__item:last-child {
++  border-bottom: 0;
++}
++</style>
+Index: src/view/content/widgets/advance-table/HesapHareketleriForm.vue
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/view/content/widgets/advance-table/HesapHareketleriForm.vue	(date 1598863116720)
++++ src/view/content/widgets/advance-table/HesapHareketleriForm.vue	(date 1598863116720)
+@@ -0,0 +1,180 @@
++<template>
++  <div>
++    <div class="row">
++      <div class="col-xxl-2 col-md-6">
++        <input type="date" class="form-control my-3" v-model="startDate" />
++      </div>
++      <div class="col-xxl-2 col-md-6">
++        <input type="date" class="form-control my-3" v-model="endDate" />
++      </div>
++      <div class="col-xxl-2 col-md-6">
++        <div>
++          <b-form-select v-model="companyId" :options="optComp" class="my-3">
++          </b-form-select>
++        </div>
++      </div>
++      <div class="col-xxl-2 col-md-6">
++        <div>
++          <b-form-select v-model="bankId" :options="optBank" class="my-3">
++          </b-form-select>
++        </div>
++      </div>
++      <div class="col-xxl-2 col-md-6">
++        <div>
++          <b-form-select
++            v-model="statusId"
++            :options="optAccountStatus"
++            class="my-3"
++          >
++          </b-form-select>
++        </div>
++      </div>
++      <div class="col-xxl-2 col-md-6 text-right">
++        <button
++          class="btn btn-primary font-weight-bold my-3 font-size-3"
++          @click="getBankAccountByFilter"
++        >
++          Ara
++        </button>
++        &nbsp;
++        <button
++          class="btn btn-danger font-weight-bold my-3 font-size-3"
++          @click="clearFilter"
++        >
++          Temizle
++        </button>
++      </div>
++    </div>
++  </div>
++</template>
++
++<script>
++import { mapGetters } from "vuex";
++import { SET_BREADCRUMB } from "@/core/services/store/breadcrumbs.module";
++
++export default {
++  name: "HesapHareketleriForm",
++  data() {
++    return {
++      startDate: this.formatDate(new Date()),
++      endDate: this.formatDate(new Date()),
++      statusId: null,
++      bankId: -1,
++      companyId: -1,
++      userCompanyId: -1,
++      optAccountStatus: [
++        { value: null, text: "Hareket Türü Seçiniz" },
++        { value: 0, text: "Hesaptan Çıkan" },
++        { value: 1, text: "Hesaba Giren" }
++      ],
++      optBank: [{ value: -1, text: "Banka Seçiniz" }],
++      optComp: [],
++      clear: false
++    };
++  },
++  methods: {
++    getBankAccountByFilter() {
++      this.$emit("getBankAccount", this.axiosParams);
++    },
++    clearFilter: function() {
++      this.startDate = this.formatDate(new Date());
++      this.endDate = this.formatDate(new Date());
++      this.clear = true;
++      this.statusId = null;
++      this.bankId = -1;
++      this.companyId = this.userCompanyId;
++
++      this.$emit("clearBankAccount", this.axiosParams);
++    },
++    setCompanyData: function() {
++      if (this.userCompanies && this.userCompanies.length > 0) {
++        for (let key in this.userCompanies) {
++          const item = this.userCompanies[key];
++
++          if (item.USTSIRKETID === null) {
++            this.companyId = item.SIRKETID;
++            this.userCompanyId = item.SIRKETID;
++          }
++
++          this.optComp.push({
++            value: item.SIRKETID,
++            text: item.SIRKETADI
++          });
++        }
++      }
++    },
++    setBankData: function() {
++      if (this.banks && this.banks.length > 0) {
++        for (let key in this.banks) {
++          const item = this.banks[key];
++
++          this.optBank.push({
++            value: item.BANKAID,
++            text: item.BANKAADI
++          });
++        }
++      }
++    },
++    getParams: function() {
++      if (!this.clear) {
++        if (
++          this.$route.params &&
++          this.$route.params.bankId &&
++          +this.$route.params.bankId !== -1
++        ) {
++          this.bankId = +this.$route.params.bankId;
++        }
++
++        if (
++          this.$route.params &&
++          this.$route.params.compId &&
++          +this.$route.params.compId !== -1
++        ) {
++          this.companyId = +this.$route.params.compId;
++        }
++      }
++    }
++  },
++  watch: {
++    $route: function() {
++      this.clearFilter();
++    }
++  },
++  mounted() {
++    this.getParams();
++
++    this.setCompanyData();
++    this.setBankData();
++
++    this.$emit("getBankAccount", this.axiosParams);
++
++    this.$store.dispatch(SET_BREADCRUMB, [{ title: "Hesap Hareketleri" }]);
++  },
++  computed: {
++    ...mapGetters(["userCompanies", "banks"]),
++    axiosParams() {
++      this.getParams();
++
++      const sDate = this.startDate;
++      const eDate = this.endDate;
++      const compId = this.companyId;
++      const bId = this.bankId;
++      const bStatus = this.statusId !== null ? this.statusId : -1;
++
++      return {
++        params: {
++          p_dtBasTarih: this.formatDate(sDate),
++          p_dtSonTarih: this.formatDate(eDate),
++          p_nSirketID: compId === this.userCompanyId ? -1 : compId,
++          p_nUstSirketID: this.userCompanyId,
++          p_nBankaID: bId,
++          p_nBorcAlacak: bStatus
++        }
++      };
++    }
++  },
++  destroyed() {
++    this.clearFilter();
++  }
++};
++</script>
+diff --git public/media/logos/logo-nethesapp-blue.png public/media/logos/logo-nethesapp-blue.png
+new file mode 100644
+index 0000000000000000000000000000000000000000..7f704f6bd94f36a41dfb0b108b1558a6bbc2ee00
+GIT binary patch
+literal 2906
+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
+Eg7UFyLI3~&
+
